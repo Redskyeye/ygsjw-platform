@@ -8,6 +8,10 @@
 - 🔧 提交代码修复
 - ✨ 开发新功能
 - 🧪 编写测试用例
+- 🤖 AI模型优化和算法改进
+- 📊 数据集扩充和质量提升
+- 🎨 用户体验和界面优化
+- 🔍 性能分析和优化
 
 ## 🚀 开始之前
 
@@ -215,6 +219,59 @@ git push origin your-feature-branch
 - **变量名**: camelCase (`userName`)
 - **常量名**: UPPER_SNAKE_CASE (`API_BASE_URL`)
 
+## 🤖 AI开发规范
+
+### AI模型集成
+
+- **API密钥管理**: 永远不要在代码中硬编码API密钥
+- **错误处理**: 优雅处理AI API限制和错误
+- **响应缓存**: 合理缓存AI响应以减少成本
+- **用户隐私**: 确保用户数据安全，遵循隐私保护原则
+
+### AI功能开发
+
+```typescript
+// 示例：AI服务调用
+import { openai } from '@/lib/ai';
+
+export class CareerConsultantService {
+  async generateCareerAdvice(profile: UserProfile): Promise<string> {
+    try {
+      const response = await openai.chat.completions.create({
+        model: 'gpt-4',
+        messages: [
+          { role: 'system', content: '你是一位专业的职业规划师...' },
+          { role: 'user', content: this.formatProfileForAI(profile) },
+        ],
+        max_tokens: 1000,
+        temperature: 0.7,
+      });
+
+      return (
+        response.choices[0]?.message?.content || '抱歉，暂时无法生成建议。'
+      );
+    } catch (error) {
+      console.error('AI服务调用失败:', error);
+      throw new Error('AI服务暂时不可用，请稍后再试。');
+    }
+  }
+}
+```
+
+### 数据隐私和伦理
+
+- **数据最小化**: 只收集必要的用户信息
+- **透明度**: 向用户说明AI如何使用他们的数据
+- **偏见控制**: 定期检查和减少AI模型中的偏见
+- **用户控制**: 允许用户控制和删除他们的数据
+
+### 性能优化
+
+- **异步处理**: 使用异步调用避免阻塞用户界面
+- **结果缓存**: 缓存常见的AI分析结果
+- **批处理**: 合并多个小请求以减少API调用
+- **降级策略**: 在AI服务不可用时提供备选方案
+
 ## 🧪 测试指南
 
 ### 测试类型
@@ -245,6 +302,58 @@ describe('Utils', () => {
   });
 });
 ```
+
+### AI功能测试
+
+```typescript
+// 示例：AI服务测试
+import { CareerConsultantService } from '@/lib/services/career-consultant';
+import { mockOpenAIResponse } from '@/__mocks__/openai';
+
+jest.mock('@/lib/ai/openai');
+
+describe('CareerConsultantService', () => {
+  let service: CareerConsultantService;
+
+  beforeEach(() => {
+    service = new CareerConsultantService();
+  });
+
+  it('should generate career advice successfully', async () => {
+    const mockProfile = {
+      name: '张三',
+      skills: ['JavaScript', 'React'],
+      experience: 2,
+    };
+
+    mockOpenAIResponse.mockResolvedValue({
+      choices: [
+        {
+          message: { content: '基于您的技能，建议您向全栈开发方向发展...' },
+        },
+      ],
+    });
+
+    const advice = await service.generateCareerAdvice(mockProfile);
+    expect(advice).toContain('全栈开发');
+  });
+
+  it('should handle API errors gracefully', async () => {
+    mockOpenAIResponse.mockRejectedValue(new Error('API limit exceeded'));
+
+    await expect(service.generateCareerAdvice({})).rejects.toThrow(
+      'AI服务暂时不可用'
+    );
+  });
+});
+```
+
+### Mock和测试数据
+
+- 使用Mock服务替代真实的AI API调用
+- 准备多样化的测试数据集
+- 测试边界情况和错误处理
+- 验证响应格式和数据结构
 
 ### 运行测试
 
