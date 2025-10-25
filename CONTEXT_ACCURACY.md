@@ -56,8 +56,9 @@ Enhanced user awareness with explicit accuracy warnings:
 
 ```markdown
 ⚠️ IMPORTANT ACCURACY NOTICE:
+
 - Context analysis is AI-generated and may contain inaccuracies
-- MANUAL REVIEW REQUIRED before using for development  
+- MANUAL REVIEW REQUIRED before using for development
 - Look for ⚠️ assumption flags and verify uncertain claims
 - Cross-reference technical details with actual codebase
 ```
@@ -76,21 +77,25 @@ For context updates, implemented evidence-based modification standards:
 ## Specific Accuracy Mechanisms
 
 ### Self-Verification Questions
+
 - "Can I point to specific files that demonstrate this?"
 - "Have I actually seen this implemented in the code?"
 - "Is this based on actual code or am I inferring?"
 
 ### Uncertainty Flags
+
 - `⚠️ Assumption - requires verification`
 - `⚠️ This is an assumption and should be verified`
 - `⚠️ Verify - [specific item to check]`
 
 ### Qualifying Language
+
 - "appears to", "likely", "potentially"
 - "Based on analysis of [specific files]"
 - "High confidence", "Medium confidence", "Low confidence - verify"
 
 ### Evidence Requirements
+
 - File/directory references for all technical claims
 - Specific code locations supporting patterns
 - Cross-references to actual implementation

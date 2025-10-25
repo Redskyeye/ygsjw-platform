@@ -7,6 +7,7 @@ allowed-tools: Bash, Read, Write
 Test the task reference update logic used in epic-sync.
 
 ## Usage
+
 ```
 /pm:test-reference-update
 ```
@@ -16,6 +17,7 @@ Test the task reference update logic used in epic-sync.
 ### 1. Create Test Files
 
 Create test task files with references:
+
 ```bash
 mkdir -p /tmp/test-refs
 cd /tmp/test-refs
@@ -63,6 +65,7 @@ EOF
 ### 2. Create Mappings
 
 Simulate the issue creation mappings:
+
 ```bash
 # Simulate task -> issue number mapping
 cat > /tmp/task-mapping.txt << 'EOF'
@@ -85,22 +88,23 @@ cat /tmp/id-mapping.txt
 ### 3. Update References
 
 Process each file and update references:
+
 ```bash
 while IFS=: read -r task_file task_number; do
   echo "Processing: $task_file -> $task_number.md"
-  
+
   # Read the file content
   content=$(cat "$task_file")
-  
+
   # Update references
   while IFS=: read -r old_num new_num; do
     content=$(echo "$content" | sed "s/\b$old_num\b/$new_num/g")
   done < /tmp/id-mapping.txt
-  
+
   # Write to new file
   new_name="${task_number}.md"
   echo "$content" > "$new_name"
-  
+
   echo "Updated content preview:"
   grep -E "depends_on:|conflicts_with:" "$new_name"
   echo "---"
@@ -110,6 +114,7 @@ done < /tmp/task-mapping.txt
 ### 4. Verify Results
 
 Check that references were updated correctly:
+
 ```bash
 echo "=== Final Results ==="
 for file in 42.md 43.md 44.md; do
@@ -120,6 +125,7 @@ done
 ```
 
 Expected output:
+
 - 42.md should have conflicts_with: [43, 44]
 - 43.md should have depends_on: [42] and conflicts_with: [44]
 - 44.md should have depends_on: [42, 43]

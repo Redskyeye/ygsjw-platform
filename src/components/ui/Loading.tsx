@@ -42,3 +42,4 @@ const Loading: React.FC<LoadingProps> = ({ size = 'md', className, text }) => {
 };
 
 export default Loading;
+export type { LoadingProps };

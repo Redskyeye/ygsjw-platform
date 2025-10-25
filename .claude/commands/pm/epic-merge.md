@@ -7,6 +7,7 @@ allowed-tools: Bash, Read, Write
 Merge completed epic from worktree back to main branch.
 
 ## Usage
+
 ```
 /pm:epic-merge <epic_name>
 ```
@@ -14,6 +15,7 @@ Merge completed epic from worktree back to main branch.
 ## Quick Check
 
 1. **Verify worktree exists:**
+
    ```bash
    git worktree list | grep "epic-$ARGUMENTS" || echo "❌ No worktree for epic: $ARGUMENTS"
    ```
@@ -27,6 +29,7 @@ Merge completed epic from worktree back to main branch.
 ### 1. Pre-Merge Validation
 
 Navigate to worktree and check status:
+
 ```bash
 cd ../epic-$ARGUMENTS
 
@@ -79,6 +82,7 @@ fi
 Get current datetime: `date -u +"%Y-%m-%dT%H:%M:%SZ"`
 
 Update `.claude/epics/$ARGUMENTS/epic.md`:
+
 - Set status to "completed"
 - Update completion date
 - Add final summary
@@ -125,6 +129,7 @@ fi"
 ### 5. Handle Merge Conflicts
 
 If merge fails with conflicts:
+
 ```bash
 # Check conflict status
 git status
@@ -140,10 +145,10 @@ Options:
    - Edit conflicted files
    - git add {files}
    - git commit
-   
+
 2. Abort merge:
    git merge --abort
-   
+
 3. Get help:
    /pm:epic-resolve $ARGUMENTS
 
@@ -155,6 +160,7 @@ exit 1
 ### 6. Post-Merge Cleanup
 
 If merge succeeds:
+
 ```bash
 # Push to remote
 git push origin main
@@ -176,6 +182,7 @@ echo "✅ Epic archived: .claude/epics/archived/$ARGUMENTS"
 ### 7. Update GitHub Issues
 
 Close related issues:
+
 ```bash
 # Get issue numbers from epic
 # Extract epic issue number
@@ -215,13 +222,13 @@ Summary:
   Commits merged: {count}
   Files changed: {count}
   Issues closed: {count}
-  
+
 Cleanup completed:
   ✓ Worktree removed
   ✓ Branch deleted
   ✓ Epic archived
   ✓ GitHub issues closed
-  
+
 Next steps:
   - Deploy changes if needed
   - Start new epic: /pm:prd-new {feature}
@@ -231,6 +238,7 @@ Next steps:
 ## Conflict Resolution Help
 
 If conflicts need resolution:
+
 ```
 The epic branch has conflicts with main.
 

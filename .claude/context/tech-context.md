@@ -10,18 +10,21 @@ author: Claude Code PM System
 ## Technology Stack
 
 ### Core Technologies
+
 - **Language**: Shell/Bash (primary automation)
 - **Platform**: Cross-platform (Unix/Linux/macOS/Windows)
 - **Integration**: GitHub CLI, Git, GitHub API
 - **AI Platform**: Claude Code (Anthropic)
 
 ### Dependencies
+
 - **GitHub CLI (gh)**: Required for GitHub operations
 - **Git**: Version control and repository management
 - **gh-sub-issue extension**: Parent-child issue relationships
 - **Shell environment**: Bash/POSIX compatible shell
 
 ### Development Tools
+
 - **Markdown**: Documentation and command definitions
 - **Frontmatter**: YAML metadata in markdown files
 - **Git Hooks**: Automation triggers
@@ -30,18 +33,21 @@ author: Claude Code PM System
 ## System Architecture
 
 ### Command Processing
+
 - Markdown-based command definitions
 - Frontmatter-specified tool permissions
 - Context-aware command execution
 - Error handling and validation
 
 ### GitHub Integration
+
 - Issues API for task management
 - Labels for organization (epic, task)
 - Comments for progress tracking
 - Extensions for enhanced functionality
 
 ### Context System
+
 - Persistent storage in `.claude/context/`
 - Timestamped documentation
 - Version-controlled context updates
@@ -50,6 +56,7 @@ author: Claude Code PM System
 ## File Formats
 
 ### Command Format
+
 ```yaml
 ---
 allowed-tools: Tool1, Tool2, Tool3
@@ -58,6 +65,7 @@ Command description and instructions
 ```
 
 ### Context Format
+
 ```yaml
 ---
 created: YYYY-MM-DDTHH:MM:SSZ
@@ -69,18 +77,21 @@ Content in markdown format
 ```
 
 ### PRD Format
+
 - Frontmatter with metadata
 - Structured sections for requirements
 - User stories and acceptance criteria
 - Technical constraints and considerations
 
 ## Security Considerations
+
 - GitHub token management via CLI
 - No hardcoded credentials
 - Permission-based tool access
 - Secure file handling
 
 ## Performance Characteristics
+
 - Lightweight shell-based operations
 - Minimal external dependencies
 - Fast local file operations

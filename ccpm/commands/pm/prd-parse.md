@@ -7,6 +7,7 @@ allowed-tools: Bash, Read, Write, LS
 Convert PRD to technical implementation epic.
 
 ## Usage
+
 ```
 /pm:prd-parse <feature_name>
 ```
@@ -14,6 +15,7 @@ Convert PRD to technical implementation epic.
 ## Required Rules
 
 **IMPORTANT:** Before executing this command, read and follow:
+
 - `.claude/rules/datetime.md` - For getting real current date/time
 
 ## Preflight Checklist
@@ -22,6 +24,7 @@ Before proceeding, complete these validation steps.
 Do not bother the user with preflight checks progress ("I'm not going to ..."). Just do them and move on.
 
 ### Validation Steps
+
 1. **Verify <feature_name> was provided as a parameter:**
    - If not, tell user: "❌ <feature_name> was not provided as parameter. Please run: /pm:prd-parse <feature_name>"
    - Stop execution if <feature_name> was not provided
@@ -51,18 +54,21 @@ Do not bother the user with preflight checks progress ("I'm not going to ..."). 
 You are a technical lead converting a Product Requirements Document into a detailed implementation epic for: **$ARGUMENTS**
 
 ### 1. Read the PRD
+
 - Load the PRD from `.claude/prds/$ARGUMENTS.md`
 - Analyze all requirements and constraints
 - Understand the user stories and success criteria
 - Extract the PRD description from frontmatter
 
 ### 2. Technical Analysis
+
 - Identify architectural decisions needed
 - Determine technology stack and approaches
 - Map functional requirements to technical components
 - Identify integration points and dependencies
 
 ### 3. File Format with Frontmatter
+
 Create the epic file at: `.claude/epics/$ARGUMENTS/epic.md` with this exact structure:
 
 ```markdown
@@ -78,57 +84,70 @@ github: [Will be updated when synced to GitHub]
 # Epic: $ARGUMENTS
 
 ## Overview
+
 Brief technical summary of the implementation approach
 
 ## Architecture Decisions
+
 - Key technical decisions and rationale
 - Technology choices
 - Design patterns to use
 
 ## Technical Approach
+
 ### Frontend Components
+
 - UI components needed
 - State management approach
 - User interaction patterns
 
 ### Backend Services
+
 - API endpoints required
 - Data models and schema
 - Business logic components
 
 ### Infrastructure
+
 - Deployment considerations
 - Scaling requirements
 - Monitoring and observability
 
 ## Implementation Strategy
+
 - Development phases
 - Risk mitigation
 - Testing approach
 
 ## Task Breakdown Preview
+
 High-level task categories that will be created:
+
 - [ ] Category 1: Description
 - [ ] Category 2: Description
 - [ ] etc.
 
 ## Dependencies
+
 - External service dependencies
 - Internal team dependencies
 - Prerequisite work
 
 ## Success Criteria (Technical)
+
 - Performance benchmarks
 - Quality gates
 - Acceptance criteria
 
 ## Estimated Effort
+
 - Overall timeline estimate
 - Resource requirements
 - Critical path items
 ```
 
 ### 4. Frontmatter Guidelines
+
 - **name**: Use the exact feature name (same as $ARGUMENTS)
 - **status**: Always start with "backlog" for new epics
 - **created**: Get REAL current datetime by running: `date -u +"%Y-%m-%dT%H:%M:%SZ"`
@@ -137,13 +156,16 @@ High-level task categories that will be created:
 - **github**: Leave placeholder text - will be updated during sync
 
 ### 5. Output Location
+
 Create the directory structure if it doesn't exist:
+
 - `.claude/epics/$ARGUMENTS/` (directory)
 - `.claude/epics/$ARGUMENTS/epic.md` (epic file)
 
 ### 6. Quality Validation
 
 Before saving the epic, verify:
+
 - [ ] All PRD requirements are addressed in the technical approach
 - [ ] Task breakdown categories cover all implementation areas
 - [ ] Dependencies are technically accurate
@@ -153,6 +175,7 @@ Before saving the epic, verify:
 ### 7. Post-Creation
 
 After successfully creating the epic:
+
 1. Confirm: "✅ Epic created: .claude/epics/$ARGUMENTS/epic.md"
 2. Show summary of:
    - Number of task categories identified
@@ -163,6 +186,7 @@ After successfully creating the epic:
 ## Error Recovery
 
 If any step fails:
+
 - Clearly explain what went wrong
 - If PRD is incomplete, list specific missing sections
 - If technical approach is unclear, identify what needs clarification
@@ -171,5 +195,6 @@ If any step fails:
 Focus on creating a technically sound implementation plan that addresses all PRD requirements while being practical and achievable for "$ARGUMENTS".
 
 ## IMPORTANT:
+
 - Aim for as few tasks as possible and limit the total number of tasks to 10 or less.
 - When creating the epic, identify ways to simplify and improve it. Look for ways to leverage existing functionality instead of creating more code when possible.

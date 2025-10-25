@@ -10,12 +10,14 @@ author: Claude Code PM System
 ## File Naming Conventions
 
 ### General Rules
+
 - Use kebab-case for all file names (lowercase with hyphens)
 - Avoid spaces, underscores, or camelCase in file names
 - Keep names descriptive but concise
 - Use consistent naming patterns across similar file types
 
 ### Specific File Types
+
 - **Commands**: `category-action.md` (e.g., `prd-new.md`, `epic-sync.md`)
 - **Context Files**: `descriptive-name.md` (e.g., `project-overview.md`)
 - **PRDs**: `feature-name.md` (e.g., `user-authentication.md`)
@@ -23,6 +25,7 @@ author: Claude Code PM System
 - **Scripts**: `action.sh` or `function-action.sh` (e.g., `init.sh`, `pm-sync.sh`)
 
 ### Directory Naming
+
 - Use singular nouns for directories (e.g., `command`, not `commands`)
 - Keep directory names short and clear
 - Group related files in appropriate subdirectories
@@ -30,6 +33,7 @@ author: Claude Code PM System
 ## Directory Structure Standards
 
 ### Organization Principles
+
 ```
 .claude/
 ├── agents/              # AI agent definitions
@@ -48,6 +52,7 @@ author: Claude Code PM System
 ```
 
 ### File Placement Rules
+
 - Commands go in appropriate category subdirectory
 - Context files always in `.claude/context/`
 - Scripts organized by function/purpose
@@ -56,7 +61,9 @@ author: Claude Code PM System
 ## Markdown Formatting Standards
 
 ### Frontmatter Requirements
+
 All markdown files must include YAML frontmatter:
+
 ```yaml
 ---
 created: YYYY-MM-DDTHH:MM:SSZ
@@ -67,6 +74,7 @@ author: Claude Code PM System
 ```
 
 ### Content Structure
+
 1. **Title**: H1 heading at the top
 2. **Sections**: Use H2-H6 for hierarchical organization
 3. **Lists**: Use bullet points for items, numbered lists for steps
@@ -75,6 +83,7 @@ author: Claude Code PM System
 6. **Tables**: Use markdown table format for structured data
 
 ### Formatting Rules
+
 - **Line Length**: Keep lines under 100 characters when possible
 - **Spacing**: Use single blank lines between sections
 - **Emphasis**: Use bold for important terms, italics for emphasis
@@ -83,7 +92,8 @@ author: Claude Code PM System
 ## Command Documentation Standards
 
 ### Command File Structure
-```yaml
+
+````yaml
 ---
 allowed-tools: Tool1, Tool2, Tool3
 ---
@@ -103,11 +113,13 @@ Detailed explanation of command functionality.
 ## Examples
 ```bash
 /command-name example
-```
+````
 
 ## Output
+
 Expected output format or behavior.
-```
+
+````
 
 ### Command Naming Patterns
 - Use `category:action` format (e.g., `pm:prd-new`)
@@ -143,11 +155,12 @@ function main() {
 
 # Execution
 main "$@"
-```
+````
 
 ## Context File Standards
 
 ### Context File Categories
+
 - **project-overview.md**: High-level project summary
 - **project-structure.md**: Directory and file organization
 - **tech-context.md**: Technical stack and dependencies
@@ -159,6 +172,7 @@ main "$@"
 - **progress.md**: Current status and recent work
 
 ### Content Guidelines
+
 - Use consistent structure across similar files
 - Include specific, actionable information
 - Update timestamps when content changes
@@ -167,6 +181,7 @@ main "$@"
 ## Git Integration Standards
 
 ### Commit Message Format
+
 ```
 type(scope): brief description
 
@@ -176,11 +191,13 @@ Closes #issue-number
 ```
 
 ### Branch Naming
+
 - Use `feature/description` for feature branches
 - Use `fix/description` for bug fixes
 - Use `chore/description` for maintenance tasks
 
 ### GitHub Integration
+
 - Use descriptive issue titles
 - Apply appropriate labels (epic, task)
 - Reference issues in commits and pull requests
@@ -189,18 +206,21 @@ Closes #issue-number
 ## Quality Standards
 
 ### Documentation Quality
+
 - All commands must have clear documentation
 - Examples should be tested and accurate
 - Error messages should be helpful and actionable
 - Cross-references should be accurate
 
 ### Code Quality
+
 - Scripts should handle errors gracefully
 - Commands should validate inputs
 - File operations should check permissions
 - Dependencies should be clearly documented
 
 ### Usability Standards
+
 - Commands should be intuitive to use
 - Help should be readily available
 - Error messages should guide users to solutions
@@ -209,12 +229,14 @@ Closes #issue-number
 ## Review and Maintenance
 
 ### Regular Reviews
+
 - Review and update documentation monthly
 - Validate all commands still work
 - Check for broken links or references
 - Update version numbers as needed
 
 ### Maintenance Guidelines
+
 - Keep documentation in sync with functionality
 - Remove deprecated features promptly
 - Update examples to reflect current behavior

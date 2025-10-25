@@ -17,6 +17,7 @@ github: https://github.com/Redskyeye/ygsjw-platform/issues/1
 ## 架构决策
 
 ### 核心技术决策
+
 1. **Next.js全栈架构**：采用App Router，支持SSR/SSG混合模式，提升SEO和首屏加载速度
 2. **N8N工作流集成**：所有AI处理通过Webhook异步执行，前端不直接处理AI逻辑
 3. **SQLite数据库**：轻量级部署，配合Prisma ORM实现类型安全的数据访问
@@ -24,6 +25,7 @@ github: https://github.com/Redskyeye/ygsjw-platform/issues/1
 5. **订阅制模式**：集成Stripe实现付费订阅，控制用户使用权限
 
 ### 技术栈选择
+
 - **前端框架**：Next.js 15 + React 19 + TypeScript
 - **UI库**：Tailwind CSS v4 + shadcn/ui
 - **状态管理**：Zustand（轻量级状态管理）
@@ -33,6 +35,7 @@ github: https://github.com/Redskyeye/ygsjw-platform/issues/1
 - **文件处理**：本地存储 + Base64编码传输
 
 ### 设计模式应用
+
 - **Repository Pattern**：数据访问层抽象，便于切换数据库
 - **Service Pattern**：业务逻辑封装，保持代码整洁
 - **Command Pattern**：N8N工作流调用，支持异步处理
@@ -43,6 +46,7 @@ github: https://github.com/Redskyeye/ygsjw-platform/issues/1
 ### 前端组件架构
 
 #### 核心页面组件
+
 ```typescript
 // 主要页面组件
 - LandingPage: 首页展示（创始人故事、品牌价值、功能介绍）
@@ -54,6 +58,7 @@ github: https://github.com/Redskyeye/ygsjw-platform/issues/1
 ```
 
 #### 通用UI组件库
+
 ```typescript
 // 基础组件
 - FileUploader: 文件上传组件（支持多格式、进度显示、错误处理）
@@ -67,6 +72,7 @@ github: https://github.com/Redskyeye/ygsjw-platform/issues/1
 ### 后端服务架构
 
 #### API路由设计
+
 ```typescript
 // API路由组织
 /app/api/
@@ -96,6 +102,7 @@ github: https://github.com/Redskyeye/ygsjw-platform/issues/1
 ```
 
 #### 数据模型设计
+
 ```sql
 -- 用户表
 CREATE TABLE users (
@@ -168,6 +175,7 @@ CREATE TABLE efficiency_jobs (
 ### 基础设施设计
 
 #### 部署架构
+
 - **容器化**：Docker + Docker Compose
 - **反向代理**：Nginx（静态文件 + API代理）
 - **进程管理**：PM2（生产环境）
@@ -175,6 +183,7 @@ CREATE TABLE efficiency_jobs (
 - **备份**：SQLite自动备份策略
 
 #### 监控可观测性
+
 ```typescript
 // 监控指标
 - 业务指标：任务完成率、AI成功率、用户活跃度
@@ -188,6 +197,7 @@ CREATE TABLE efficiency_jobs (
 ### 开发阶段（12周）
 
 #### Phase 1: 基础架构（3周）
+
 1. **项目初始化**
    - 创建Next.js项目结构
    - 配置TypeScript + ESLint
@@ -207,6 +217,7 @@ CREATE TABLE efficiency_jobs (
    - 配置N8N集成客户端
 
 #### Phase 2: 简历优化模块（3周）
+
 1. **文件处理系统**
    - 实现FileUploader组件
    - 添加文件格式验证
@@ -226,6 +237,7 @@ CREATE TABLE efficiency_jobs (
    - 完成优化提交流程
 
 #### Phase 3: 面试辅导模块（2周）
+
 1. **多文件管理**
    - 扩展文件上传支持
    - 实现文本粘贴功能
@@ -244,6 +256,7 @@ CREATE TABLE efficiency_jobs (
    - 完善错误处理机制
 
 #### Phase 4: 效率工具模块（2周）
+
 1. **4D分析系统**
    - 实现7大服务类别
    - 创建批量文件处理
@@ -257,6 +270,7 @@ CREATE TABLE efficiency_jobs (
    - 完成深度分析提交
 
 #### Phase 5: 帮助中心模块（1周）
+
 1. **知识库系统**
    - 实现Markdown内容管理
    - 创建分类系统
@@ -270,6 +284,7 @@ CREATE TABLE efficiency_jobs (
    - 添加新手引导流程
 
 #### Phase 6: 优化与测试（1周）
+
 1. **性能优化**
    - 实现代码分割和懒加载
    - 优化图片和静态资源
@@ -285,6 +300,7 @@ CREATE TABLE efficiency_jobs (
 ### 风险缓解
 
 #### 技术风险
+
 1. **N8N稳定性**
    - 实现重试机制（指数退避）
    - 建立降级策略
@@ -306,6 +322,7 @@ CREATE TABLE efficiency_jobs (
 ## Tasks Created
 
 ### Phase 1: 基础架构（8个任务）
+
 - [ ] #3 - 项目初始化与环境配置 (parallel: true) - 8小时
 - [ ] #4 - Next.js + TypeScript + Tailwind CSS设置 (parallel: false) - 12小时
 - [ ] #5 - shadcn/ui组件库集成 (parallel: false) - 10小时
@@ -316,6 +333,7 @@ CREATE TABLE efficiency_jobs (
 - [ ] #9 - N8N集成客户端 (parallel: false) - 16小时
 
 ### Phase 2: 简历优化（6个任务）- 旗舰功能
+
 - [ ] #9 - 文件上传组件 (parallel: true) - 16小时
 - [ ] #10 - AI解析集成 (parallel: true) - 20小时
 - [ ] #11 - 数据映射与转换 (parallel: true) - 18小时
@@ -324,6 +342,7 @@ CREATE TABLE efficiency_jobs (
 - [ ] #14 - 两步提交流程 (parallel: false) - 12小时
 
 ### Phase 3: 面试辅导（6个任务）
+
 - [ ] #15 - 多文件上传扩展 (parallel: true) - 16小时
 - [ ] #16 - 面试信息表单系统 (parallel: true) - 14小时
 - [ ] #17 - PPT模板设计 (parallel: true) - 18小时
@@ -332,6 +351,7 @@ CREATE TABLE efficiency_jobs (
 - [ ] #20 - 进度追踪完善 (parallel: false) - 12小时
 
 ### Phase 4: 效率工具（6个任务）
+
 - [ ] #21 - 服务类别系统 (parallel: true) - 14小时
 - [ ] #22 - 批量文件处理 (parallel: true) - 16小时
 - [ ] #23 - 4D分析可视化 (parallel: true) - 20小时
@@ -340,12 +360,14 @@ CREATE TABLE efficiency_jobs (
 - [ ] #26 - 报告生成集成 (parallel: false) - 16小时
 
 ### Phase 5: 帮助中心（4个任务）
+
 - [ ] #27 - 知识库管理系统 (parallel: true) - 16小时
 - [ ] #28 - 搜索功能实现 (parallel: true) - 18小时
 - [ ] #29 - 客服集成 (parallel: true) - 16小时
 - [ ] #30 - 工单系统 (parallel: false) - 14小时
 
 ### Phase 6: 优化测试（5个任务）
+
 - [ ] #31 - 性能优化实施 (parallel: true) - 24小时
 - [ ] #32 - 单元测试覆盖 (parallel: true) - 20小时
 - [ ] #33 - 集成测试套件 (parallel: true) - 16小时
@@ -353,6 +375,7 @@ CREATE TABLE efficiency_jobs (
 - [ ] #35 - 生产环境配置 (parallel: false) - 12小时
 
 **任务统计**：
+
 - 总任务数：35个
 - 可并行任务：28个
 - 串行任务：7个
@@ -362,6 +385,7 @@ CREATE TABLE efficiency_jobs (
 ## 依赖关系
 
 ### 外部依赖
+
 - **N8N平台**：AI处理核心
 - **AI模型API**：已集成在N8N工作流
 - **邮件服务**：通过N8N实现
@@ -369,6 +393,7 @@ CREATE TABLE efficiency_jobs (
 - **客服系统**：第三方集成
 
 ### 内部依赖
+
 - **前端开发团队**：UI/UX实现
 - **N8N工作流团队**：AI流程维护
 - **创始人刘坦**：产品方向和专业指导
@@ -378,6 +403,7 @@ CREATE TABLE efficiency_jobs (
 ## 成功标准（技术）
 
 ### 性能基准
+
 - 页面加载时间 < 2秒
 - API响应时间 < 500ms（95th percentile）
 - 文件上传速度 < 3秒（10MB）
@@ -385,6 +411,7 @@ CREATE TABLE efficiency_jobs (
 - 系统可用性 > 99.5%
 
 ### 质量标准
+
 - 代码覆盖率 > 80%
 - 自动化测试覆盖核心流程
 - 零严重安全漏洞
@@ -392,12 +419,14 @@ CREATE TABLE efficiency_jobs (
 - 错误率 < 0.1%
 
 ### 用户体验
+
 - 任务完成时间 < 15分钟
 - 表单数据自动保存率 100%
 - 错误信息友好度评分 > 4.5/5
 - 移动端适配度评分 > 90/100
 
 ### 业务目标
+
 - 简历优化转化率 > 95%
 - AI分析准确度 > 90%
 - 用户满意度 > 4.5/5
@@ -406,11 +435,13 @@ CREATE TABLE efficiency_jobs (
 ## 预估工作量
 
 ### 总体时间线
+
 - **MVP版本**：12周
 - **正式版本**：16周（含优化期）
 - **持续迭代**：每2周一个迭代
 
 ### 资源需求
+
 - **前端开发**：2人
 - **后端开发**：1人
 - **UI/UX设计**：1人
@@ -418,6 +449,7 @@ CREATE TABLE efficiency_jobs (
 - **DevOps**：1人（兼职）
 
 ### 关键路径
+
 1. **第1-3周**：基础架构搭建
 2. **第4-6周**：简历优化（旗舰功能）
 3. **第7-8周**：面试辅导功能
@@ -430,12 +462,14 @@ CREATE TABLE efficiency_jobs (
 本Epic提供了月光石平台的完整技术实施路径，将刘坦20年的职业咨询经验与AI技术深度融合。通过模块化设计、渐进式开发和严格的质量保证，确保平台不仅能满足当前需求，更能支撑未来的扩展。
 
 **核心价值**：
+
 1. **专业性**：真正理解职业规划师需求
 2. **智能化**：AI赋能而非替代
 3. **易用性**：简洁直观的用户体验
 4. **可靠性**：稳健的技术架构
 
 **创新亮点**：
+
 - 4D分析框架
 - 两阶段智能处理流程
 - 自动化进度追踪

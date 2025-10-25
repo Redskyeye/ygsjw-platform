@@ -7,11 +7,13 @@ allowed-tools: Bash, Read, Write, LS
 Import existing GitHub issues into the PM system.
 
 ## Usage
+
 ```
 /pm:import [--epic <epic_name>] [--label <label>]
 ```
 
 Options:
+
 - `--epic` - Import into specific epic
 - `--label` - Import only issues with specific label
 - No args - Import all untracked issues
@@ -32,12 +34,14 @@ fi
 ### 2. Identify Untracked Issues
 
 For each GitHub issue:
+
 - Search local files for matching github URL
 - If not found, it's untracked and needs import
 
 ### 3. Categorize Issues
 
 Based on labels:
+
 - Issues with "epic" label → Create epic structure
 - Issues with "task" label → Create task in appropriate epic
 - Issues with "epic:{name}" label → Assign to that epic
@@ -48,23 +52,26 @@ Based on labels:
 For each issue to import:
 
 **If Epic:**
+
 ```bash
 mkdir -p .claude/epics/{epic_name}
 # Create epic.md with GitHub content and frontmatter
 ```
 
 **If Task:**
+
 ```bash
 # Find next available number (001.md, 002.md, etc.)
 # Create task file with GitHub content
 ```
 
 Set frontmatter:
+
 ```yaml
-name: {issue_title}
-status: {open|closed based on GitHub}
-created: {GitHub createdAt}
-updated: {GitHub updatedAt}
+name: { issue_title }
+status: { open|closed based on GitHub }
+created: { GitHub createdAt }
+updated: { GitHub updatedAt }
 github: https://github.com/{org}/{repo}/issues/{number}
 imported: true
 ```
@@ -77,13 +84,13 @@ imported: true
 Imported:
   Epics: {count}
   Tasks: {count}
-  
+
 Created structure:
   {epic_1}/
     - {count} tasks
   {epic_2}/
     - {count} tasks
-    
+
 Skipped (already tracked): {count}
 
 Next steps:

@@ -74,3 +74,4 @@ CardWithComponents.Body = CardBody;
 CardWithComponents.Footer = CardFooter;
 
 export default CardWithComponents;
+export type { CardProps, CardHeaderProps, CardBodyProps, CardFooterProps };

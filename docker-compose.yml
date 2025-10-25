@@ -1,0 +1,73 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: epic-ai-app
+    ports:
+      - '3000:3000'
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_APP_NAME=史诗AI
+      - NEXT_PUBLIC_APP_VERSION=0.1.0
+      - DATABASE_URL=postgresql://postgres:password@db:5432/epic_ai
+      - NEXTAUTH_SECRET=your-secret-key-here
+      - NEXTAUTH_URL=http://localhost:3000
+    depends_on:
+      - db
+      - redis
+    restart: unless-stopped
+    networks:
+      - epic-ai-network
+
+  db:
+    image: postgres:15-alpine
+    container_name: epic-ai-db
+    environment:
+      - POSTGRES_DB=epic_ai
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./prisma/init.sql:/docker-entrypoint-initdb.d/init.sql
+    restart: unless-stopped
+    networks:
+      - epic-ai-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: epic-ai-redis
+    ports:
+      - '6379:6379'
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+    networks:
+      - epic-ai-network
+
+  nginx:
+    image: nginx:alpine
+    container_name: epic-ai-nginx
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./ssl:/etc/nginx/ssl
+    depends_on:
+      - app
+    restart: unless-stopped
+    networks:
+      - epic-ai-network
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  epic-ai-network:
+    driver: bridge

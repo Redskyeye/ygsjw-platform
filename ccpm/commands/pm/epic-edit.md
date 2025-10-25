@@ -7,6 +7,7 @@ allowed-tools: Read, Write, LS
 Edit epic details after creation.
 
 ## Usage
+
 ```
 /pm:epic-edit <epic_name>
 ```
@@ -16,12 +17,14 @@ Edit epic details after creation.
 ### 1. Read Current Epic
 
 Read `.claude/epics/$ARGUMENTS/epic.md`:
+
 - Parse frontmatter
 - Read content sections
 
 ### 2. Interactive Edit
 
 Ask user what to edit:
+
 - Name/Title
 - Description/Overview
 - Architecture decisions
@@ -34,6 +37,7 @@ Ask user what to edit:
 Get current datetime: `date -u +"%Y-%m-%dT%H:%M:%SZ"`
 
 Update epic.md:
+
 - Preserve all frontmatter except `updated`
 - Apply user's edits to content
 - Update `updated` field with current datetime
@@ -44,6 +48,7 @@ If epic has GitHub URL in frontmatter:
 Ask: "Update GitHub issue? (yes/no)"
 
 If yes:
+
 ```bash
 gh issue edit {issue_number} --body-file .claude/epics/$ARGUMENTS/epic.md
 ```
@@ -53,7 +58,7 @@ gh issue edit {issue_number} --body-file .claude/epics/$ARGUMENTS/epic.md
 ```
 ✅ Updated epic: $ARGUMENTS
   Changes made to: {sections_edited}
-  
+
 {If GitHub updated}: GitHub issue updated ✅
 
 View epic: /pm:epic-show $ARGUMENTS

@@ -112,9 +112,12 @@ export function flattenTree<T extends { children?: T[] }>(
 export function arrayToTree<T extends { id: string; parentId?: string }>(
   items: T[],
   rootParentId: string | null = null
-): (T & { children: (T & { children: (T & { children: unknown[] })[] })[] })[] {
-  const tree: (T & { children: unknown[] })[] = [];
-  const map = new Map<string, T & { children: unknown[] }>();
+): Array<T & { children: Array<T & { children: unknown[] }> }> {
+  const tree: Array<T & { children: Array<T & { children: unknown[] }> }> = [];
+  const map = new Map<
+    string,
+    T & { children: Array<T & { children: unknown[] }> }
+  >();
 
   // 创建映射
   items.forEach(item => {
@@ -124,12 +127,14 @@ export function arrayToTree<T extends { id: string; parentId?: string }>(
   // 构建树
   items.forEach(item => {
     const node = map.get(item.id);
-    if (item.parentId === rootParentId) {
-      tree.push(node);
-    } else {
-      const parent = map.get(item.parentId!);
-      if (parent) {
-        parent.children.push(node);
+    if (node) {
+      if (item.parentId === rootParentId) {
+        tree.push(node);
+      } else {
+        const parent = map.get(item.parentId!);
+        if (parent) {
+          parent.children.push(node);
+        }
       }
     }
   });

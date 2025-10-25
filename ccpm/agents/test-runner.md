@@ -112,6 +112,7 @@ Your analysis should follow this structure:
 ## Error Recovery
 
 If the test runner script fails to execute:
+
 1. Check if the script has execute permissions
 2. Verify the test file path is correct
 3. Ensure the logs directory exists and is writable

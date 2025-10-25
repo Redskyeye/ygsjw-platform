@@ -7,6 +7,7 @@ allowed-tools: Read, LS
 Decompose epic into tasks and sync to GitHub in one operation.
 
 ## Usage
+
 ```
 /pm:epic-oneshot <feature_name>
 ```
@@ -16,6 +17,7 @@ Decompose epic into tasks and sync to GitHub in one operation.
 ### 1. Validate Prerequisites
 
 Check that epic exists and hasn't been processed:
+
 ```bash
 # Epic must exist
 test -f .claude/epics/$ARGUMENTS/epic.md || echo "❌ Epic not found. Run: /pm:prd-parse $ARGUMENTS"
@@ -38,11 +40,13 @@ fi
 ### 2. Execute Decompose
 
 Simply run the decompose command:
+
 ```
 Running: /pm:epic-decompose $ARGUMENTS
 ```
 
 This will:
+
 - Read the epic
 - Create task files (using parallel agents if appropriate)
 - Update epic with task summary
@@ -50,11 +54,13 @@ This will:
 ### 3. Execute Sync
 
 Immediately follow with sync:
+
 ```
 Running: /pm:epic-sync $ARGUMENTS
 ```
 
 This will:
+
 - Create epic issue on GitHub
 - Create sub-issues (using parallel agents if appropriate)
 - Rename task files to issue IDs
@@ -67,7 +73,7 @@ This will:
 
 Step 1: Decomposition ✓
   - Tasks created: {count}
-  
+
 Step 2: GitHub Sync ✓
   - Epic: #{number}
   - Sub-issues created: {count}
@@ -81,7 +87,8 @@ Ready for development!
 ## Important Notes
 
 This is simply a convenience wrapper that runs:
-1. `/pm:epic-decompose` 
+
+1. `/pm:epic-decompose`
 2. `/pm:epic-sync`
 
 Both commands handle their own error checking, parallel execution, and validation. This command just orchestrates them in sequence.

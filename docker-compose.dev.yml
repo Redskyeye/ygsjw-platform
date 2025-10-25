@@ -1,0 +1,73 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: epic-ai-app-dev
+    ports:
+      - '3000:3000'
+    environment:
+      - NODE_ENV=development
+      - NEXT_PUBLIC_APP_NAME=史诗AI
+      - NEXT_PUBLIC_APP_VERSION=0.1.0-dev
+      - DATABASE_URL=postgresql://postgres:password@db:5432/epic_ai_dev
+      - NEXTAUTH_SECRET=dev-secret-key
+      - NEXTAUTH_URL=http://localhost:3000
+    depends_on:
+      - db
+      - redis
+    restart: unless-stopped
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.next
+    networks:
+      - epic-ai-dev-network
+    command: npm run dev
+
+  db:
+    image: postgres:15-alpine
+    container_name: epic-ai-db-dev
+    environment:
+      - POSTGRES_DB=epic_ai_dev
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+    ports:
+      - '5433:5432'
+    volumes:
+      - postgres_dev_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    networks:
+      - epic-ai-dev-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: epic-ai-redis-dev
+    ports:
+      - '6380:6379'
+    volumes:
+      - redis_dev_data:/data
+    restart: unless-stopped
+    networks:
+      - epic-ai-dev-network
+
+  adminer:
+    image: adminer
+    container_name: epic-ai-adminer
+    ports:
+      - '8080:8080'
+    depends_on:
+      - db
+    restart: unless-stopped
+    networks:
+      - epic-ai-dev-network
+
+volumes:
+  postgres_dev_data:
+  redis_dev_data:
+
+networks:
+  epic-ai-dev-network:
+    driver: bridge

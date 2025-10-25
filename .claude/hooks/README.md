@@ -22,7 +22,6 @@ The pre-tool-use hook automatically detects when you're in a worktree and inject
 
 Add to your `.claude/settings.json`:
 
-
 ```json
 {
   "hooks": {
@@ -78,16 +77,19 @@ The script handles:
 If the hook isn't working:
 
 1. **Verify the hook is executable:**
+
    ```bash
    chmod +x .claude/hooks/bash-worktree-fix.sh
    ```
 
 2. **Enable debug logging to see what's happening:**
+
    ```bash
    export CLAUDE_HOOK_DEBUG=true
    ```
 
 3. **Test the hook manually with a sample command:**
+
    ```bash
    cd /path/to/worktree
    .claude/hooks/bash-worktree-fix.sh "npm test"

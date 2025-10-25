@@ -8,9 +8,11 @@ author: Claude Code PM System
 # Project Overview
 
 ## Project Summary
+
 Claude Code PM is a comprehensive project management system designed for AI-assisted development workflows using Claude Code. It transforms PRDs (Product Requirements Documents) into epics, epics into GitHub issues, and issues into production code with full traceability.
 
 ## Core Features
+
 - **PRD Creation & Management**: Guided brainstorming for product requirements
 - **Implementation Planning**: Technical epic generation from PRDs
 - **Task Decomposition**: Breaking down epics into actionable tasks
@@ -20,6 +22,7 @@ Claude Code PM is a comprehensive project management system designed for AI-assi
 - **Progress Tracking**: Complete audit trail from idea to production
 
 ## Current State
+
 - **Status**: Active development / Production ready
 - **Version**: Main branch with comprehensive feature set
 - **Documentation**: Complete README with command reference
@@ -27,6 +30,7 @@ Claude Code PM is a comprehensive project management system designed for AI-assi
 - **GitHub Integration**: Full Issues API support with extensions
 
 ## Key Components
+
 - **Commands**: 40+ specialized commands for project management
 - **Agents**: Task-oriented AI agents for different work types
 - **Scripts**: Automation scripts for GitHub operations
@@ -34,6 +38,7 @@ Claude Code PM is a comprehensive project management system designed for AI-assi
 - **Context Templates**: Structured documentation patterns
 
 ## Integration Points
+
 - GitHub Issues API for task management
 - GitHub CLI extensions for enhanced functionality
 - Claude Code for AI-assisted development
@@ -41,6 +46,7 @@ Claude Code PM is a comprehensive project management system designed for AI-assi
 - Markdown-based documentation system
 
 ## Target Users
+
 - Development teams using Claude Code
 - Project managers needing AI-assisted workflows
 - Teams wanting specification-driven development

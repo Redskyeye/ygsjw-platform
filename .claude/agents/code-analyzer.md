@@ -87,6 +87,7 @@ Risk Level: [Critical/High/Medium/Low]
 **Self-Verification Protocol:**
 
 Before reporting a bug:
+
 1. Verify it's not intentional behavior
 2. Confirm the issue exists in the current code (not hypothetical)
 3. Validate your understanding of the logic flow

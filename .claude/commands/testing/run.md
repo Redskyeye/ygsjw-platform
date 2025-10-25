@@ -7,11 +7,13 @@ allowed-tools: Bash, Read, Write, LS, Task
 Execute tests with the configured test-runner agent.
 
 ## Usage
+
 ```
 /testing:run [test_target]
 ```
 
 Where `test_target` can be:
+
 - Empty (run all tests)
 - Test file path
 - Test pattern
@@ -25,6 +27,7 @@ test -f .claude/testing-config.md || echo "❌ Testing not configured. Run /test
 ```
 
 If test target provided, verify it exists:
+
 ```bash
 # For file targets
 test -f "$ARGUMENTS" || echo "⚠️ Test file not found: $ARGUMENTS"
@@ -35,6 +38,7 @@ test -f "$ARGUMENTS" || echo "⚠️ Test file not found: $ARGUMENTS"
 ### 1. Determine Test Command
 
 Based on testing-config.md and target:
+
 - No arguments → Run full test suite from config
 - File path → Run specific test file
 - Pattern → Run tests matching pattern
@@ -47,6 +51,7 @@ Use the test-runner agent from `.claude/agents/test-runner.md`:
 Execute tests for: $ARGUMENTS (or "all" if empty)
 
 Requirements:
+
 - Run with verbose output for debugging
 - No mocks - use real services
 - Capture full output including stack traces
@@ -62,11 +67,13 @@ Requirements:
 ### 4. Report Results
 
 **Success:**
+
 ```
 ✅ All tests passed ({count} tests in {time}s)
 ```
 
 **Failure:**
+
 ```
 ❌ Test failures: {failed_count} of {total_count}
 
@@ -79,6 +86,7 @@ Run with more detail: /testing:run {specific_test}
 ```
 
 **Mixed:**
+
 ```
 Tests complete: {passed} passed, {failed} failed, {skipped} skipped
 

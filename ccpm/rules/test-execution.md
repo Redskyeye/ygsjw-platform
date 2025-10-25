@@ -15,6 +15,7 @@ Standard patterns for running tests across all testing commands.
 Execute tests for: {target}
 
 Requirements:
+
 - Run with verbose output
 - No mock services
 - Capture full stack traces
@@ -24,13 +25,17 @@ Requirements:
 ## Output Focus
 
 ### Success
+
 Keep it simple:
+
 ```
 ✅ All tests passed ({count} tests in {time}s)
 ```
 
 ### Failure
+
 Focus on what failed:
+
 ```
 ❌ Test failures: {count}
 
@@ -48,6 +53,7 @@ Focus on what failed:
 ## Cleanup
 
 Always clean up after tests:
+
 ```bash
 # Kill test processes for all supported frameworks
 pkill -f "jest|mocha|pytest|phpunit|rspec|ctest" 2>/dev/null || true
