@@ -3,14 +3,24 @@
  * 统一导出所有UI组件
  */
 
-// 导出基础UI组件
-export { default as Button } from './Button';
-export { default as Card } from './Card';
-export { default as Input } from './Input';
-export { default as Loading } from './Loading';
+// 导出shadcn/ui组件
+export * from './button';
+export * from './card';
+export * from './input';
+export * from './label';
+export * from './textarea';
+export * from './dialog';
+export * from './dropdown-menu';
+export * from './form';
+export * from './checkbox';
+export * from './select';
+export * from './toast';
+export * from './toaster';
+export * from './badge';
+export * from './alert';
+export * from './table';
+export * from './avatar';
 
-// 组件类型导出
-export type { ButtonProps } from './Button';
-export type { CardProps } from './Card';
-export type { InputProps } from './Input';
+// 导出原有Loading组件
+export { default as Loading } from './Loading';
 export type { LoadingProps } from './Loading';

@@ -89,7 +89,7 @@ export interface ApiResponse<T> {
 }
 
 // 表单相关类型
-export interface FormField {
+export interface FormFieldConfig {
   name: string;
   label: string;
   type: 'text' | 'email' | 'password' | 'textarea' | 'select' | 'checkbox';
