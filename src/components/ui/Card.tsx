@@ -63,8 +63,14 @@ const CardFooter: React.FC<CardFooterProps> = ({ children, className }) => {
   );
 };
 
-Card.Header = CardHeader;
-Card.Body = CardBody;
-Card.Footer = CardFooter;
+const CardWithComponents = Card as typeof Card & {
+  Header: typeof CardHeader;
+  Body: typeof CardBody;
+  Footer: typeof CardFooter;
+};
 
-export default Card;
+CardWithComponents.Header = CardHeader;
+CardWithComponents.Body = CardBody;
+CardWithComponents.Footer = CardFooter;
+
+export default CardWithComponents;
