@@ -2,9 +2,10 @@
 name: ai
 status: backlog
 created: 2025-10-25T14:59:49Z
+updated: 2025-10-25T15:59:00Z
 progress: 0%
 prd: .claude/prds/ai.md
-github: [Will be updated when synced to GitHub]
+github: https://github.com/Redskyeye/ygsjw-platform/issues/1
 ---
 
 # Epic: AI赋能职业规划师平台（月光石）
@@ -302,54 +303,54 @@ CREATE TABLE efficiency_jobs (
    - 实现访问控制
    - 遵循数据保护法规
 
-## 任务创建完成
+## Tasks Created
 
 ### Phase 1: 基础架构（8个任务）
-- [ ] 001.md - 项目初始化与环境配置 (parallel: true) - 8小时
-- [ ] 002.md - Next.js + TypeScript + Tailwind CSS设置 (parallel: false) - 12小时
-- [ ] 003.md - shadcn/ui组件库集成 (parallel: false) - 10小时
-- [ ] 004.md - 品牌主题系统实现 (parallel: false) - 16小时
-- [ ] 005.md - NextAuth.js认证系统 (parallel: false) - 14小时
-- [ ] 006.md - Prisma + SQLite数据库 (parallel: false) - 12小时
-- [ ] 007.md - 基础API架构 (parallel: false) - 16小时
-- [ ] 008.md - N8N集成客户端 (parallel: false) - 16小时
+- [ ] #3 - 项目初始化与环境配置 (parallel: true) - 8小时
+- [ ] #4 - Next.js + TypeScript + Tailwind CSS设置 (parallel: false) - 12小时
+- [ ] #5 - shadcn/ui组件库集成 (parallel: false) - 10小时
+- [ ] #6 - 品牌主题系统实现 (parallel: false) - 16小时
+- [ ] #7 - NextAuth.js认证系统 (parallel: false) - 14小时
+- [ ] #8 - Prisma + SQLite数据库 (parallel: false) - 12小时
+- [ ] #8 - 基础API架构 (parallel: false) - 16小时
+- [ ] #9 - N8N集成客户端 (parallel: false) - 16小时
 
 ### Phase 2: 简历优化（6个任务）- 旗舰功能
-- [ ] 009.md - 文件上传组件 (parallel: true) - 16小时
-- [ ] 010.md - AI解析集成 (parallel: true) - 20小时
-- [ ] 011.md - 数据映射与转换 (parallel: true) - 18小时
-- [ ] 012.md - 参数配置界面 (parallel: true) - 14小时
-- [ ] 013.md - 优化模式实现 (parallel: true) - 16小时
-- [ ] 014.md - 两步提交流程 (parallel: false) - 12小时
+- [ ] #9 - 文件上传组件 (parallel: true) - 16小时
+- [ ] #10 - AI解析集成 (parallel: true) - 20小时
+- [ ] #11 - 数据映射与转换 (parallel: true) - 18小时
+- [ ] #12 - 参数配置界面 (parallel: true) - 14小时
+- [ ] #13 - 优化模式实现 (parallel: true) - 16小时
+- [ ] #14 - 两步提交流程 (parallel: false) - 12小时
 
 ### Phase 3: 面试辅导（6个任务）
-- [ ] 015.md - 多文件上传扩展 (parallel: true) - 16小时
-- [ ] 016.md - 面试信息表单系统 (parallel: true) - 14小时
-- [ ] 017.md - PPT模板设计 (parallel: true) - 18小时
-- [ ] 018.md - 双Webhook数据流 (parallel: true) - 16小时
-- [ ] 019.md - 模板预览系统 (parallel: true) - 14小时
-- [ ] 020.md - 进度追踪完善 (parallel: false) - 12小时
+- [ ] #15 - 多文件上传扩展 (parallel: true) - 16小时
+- [ ] #16 - 面试信息表单系统 (parallel: true) - 14小时
+- [ ] #17 - PPT模板设计 (parallel: true) - 18小时
+- [ ] #18 - 双Webhook数据流 (parallel: true) - 16小时
+- [ ] #19 - 模板预览系统 (parallel: true) - 14小时
+- [ ] #20 - 进度追踪完善 (parallel: false) - 12小时
 
 ### Phase 4: 效率工具（6个任务）
-- [ ] 021.md - 服务类别系统 (parallel: true) - 14小时
-- [ ] 022.md - 批量文件处理 (parallel: true) - 16小时
-- [ ] 023.md - 4D分析可视化 (parallel: true) - 20小时
-- [ ] 024.md - 两阶段分析流程 (parallel: true) - 18小时
-- [ ] 025.md - 问题确认系统 (parallel: true) - 16小时
-- [ ] 026.md - 报告生成集成 (parallel: false) - 16小时
+- [ ] #21 - 服务类别系统 (parallel: true) - 14小时
+- [ ] #22 - 批量文件处理 (parallel: true) - 16小时
+- [ ] #23 - 4D分析可视化 (parallel: true) - 20小时
+- [ ] #24 - 两阶段分析流程 (parallel: true) - 18小时
+- [ ] #25 - 问题确认系统 (parallel: true) - 16小时
+- [ ] #26 - 报告生成集成 (parallel: false) - 16小时
 
 ### Phase 5: 帮助中心（4个任务）
-- [ ] 027.md - 知识库管理系统 (parallel: true) - 16小时
-- [ ] 028.md - 搜索功能实现 (parallel: true) - 18小时
-- [ ] 029.md - 客服集成 (parallel: true) - 16小时
-- [ ] 030.md - 工单系统 (parallel: false) - 14小时
+- [ ] #27 - 知识库管理系统 (parallel: true) - 16小时
+- [ ] #28 - 搜索功能实现 (parallel: true) - 18小时
+- [ ] #29 - 客服集成 (parallel: true) - 16小时
+- [ ] #30 - 工单系统 (parallel: false) - 14小时
 
 ### Phase 6: 优化测试（5个任务）
-- [ ] 031.md - 性能优化实施 (parallel: true) - 24小时
-- [ ] 032.md - 单元测试覆盖 (parallel: true) - 20小时
-- [ ] 033.md - 集成测试套件 (parallel: true) - 16小时
-- [ ] 034.md - E2E测试场景 (parallel: true) - 16小时
-- [ ] 035.md - 生产环境配置 (parallel: false) - 12小时
+- [ ] #31 - 性能优化实施 (parallel: true) - 24小时
+- [ ] #32 - 单元测试覆盖 (parallel: true) - 20小时
+- [ ] #33 - 集成测试套件 (parallel: true) - 16小时
+- [ ] #34 - E2E测试场景 (parallel: true) - 16小时
+- [ ] #35 - 生产环境配置 (parallel: false) - 12小时
 
 **任务统计**：
 - 总任务数：35个
