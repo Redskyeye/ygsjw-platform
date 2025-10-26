@@ -25,3 +25,6 @@ export * from './data-processing';
 
 // 格式化工具
 export * from './formatters';
+
+// 文件验证工具
+export * from './fileValidation';
