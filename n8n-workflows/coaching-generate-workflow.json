@@ -1,0 +1,316 @@
+{
+  "name": "面试辅导生成工作流",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "webhook/interview/coach",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-trigger",
+      "name": "Webhook触发器",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [240, 300],
+      "webhookId": "coaching-generate"
+    },
+    {
+      "parameters": {
+        "functionCode": "// 验证辅导请求\nconst requestData = $input.first().json;\n\n// 验证必需字段\nif (!requestData.sessionId || !requestData.parsedData) {\n  throw new Error('Invalid coaching request data');\n}\n\n// 生成唯一请求ID\nconst requestId = `coach_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;\n\n// 返回处理后的数据\nreturn {\n  json: {\n    ...requestData,\n    requestId,\n    receivedAt: new Date().toISOString(),\n    workflow: 'coaching-generate'\n  }\n};"
+      },
+      "id": "validate-request",
+      "name": "验证请求",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "url": "http://localhost:3000/api/coaching/start",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{ $credentials.webhookApi.token }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "sessionId",
+              "value": "={{ $json.sessionId }}"
+            },
+            {
+              "name": "requestId",
+              "value": "={{ $json.requestId }}"
+            }
+          ]
+        }
+      },
+      "id": "start-generation",
+      "name": "开始生成",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [680, 300]
+    },
+    {
+      "parameters": {
+        "functionCode": "// 生成面试指南\nconst { sessionId, parsedData, preferences } = $input.first().json;\n\n// 模拟生成面试指南的过程\n// 实际应该调用AI服务生成内容\nconst guide = {\n  sections: [\n    {\n      title: '面试前准备',\n      content: '详细的面试前准备工作...',\n      tips: ['研究公司背景', '了解职位要求', '准备常见问题答案'],\n      examples: ['自我介绍示例', '项目描述示例']\n    },\n    {\n      title: '面试中技巧',\n      content: '面试过程中的注意事项...',\n      tips: ['保持眼神交流', '使用STAR法则回答问题']\n    }\n  ]\n};\n\nreturn {\n  json: {\n    sessionId,\n    step: 'guide-generated',\n    progress: 30,\n    guide\n  }\n};"
+      },
+      "id": "generate-guide",
+      "name": "生成面试指南",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [900, 300]
+    },
+    {
+      "parameters": {
+        "url": "http://localhost:3000/api/coaching/progress",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{ $credentials.webhookApi.token }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "sessionId",
+              "value": "={{ $json.sessionId }}"
+            },
+            {
+              "name": "progress",
+              "value": "={{ $json.progress }}"
+            },
+            {
+              "name": "step",
+              "value": "={{ $json.step }}"
+            }
+          ]
+        }
+      },
+      "id": "update-progress-1",
+      "name": "更新进度1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [1120, 300]
+    },
+    {
+      "parameters": {
+        "functionCode": "// 构建问题库\nconst sessionId = $input.first().json.sessionId;\nconst parsedData = $input.first().json.parsedData || $('generate-guide').first().json.parsedData;\n\n// 基于分析结果生成问题\nconst questionBank = [\n  {\n    id: 'q001',\n    question: '请介绍一下你的项目经验',\n    category: 'experience',\n    difficulty: 'medium',\n    modelAnswer: {\n      structure: ['项目背景', '我的角色', '遇到的挑战', '解决方案', '项目成果'],\n      keyPoints: ['量化成果', '突出技术难点', '展示团队协作'],\n      exampleResponse: '在我负责的XX项目中...',\n      pitfalls: ['过于技术化', '没有量化成果']\n    },\n    followUpQuestions: ['你在项目中遇到的最大挑战是什么？']\n  },\n  {\n    id: 'q002',\n    question: '你为什么想加入我们公司？',\n    category: 'motivation',\n    difficulty: 'easy',\n    modelAnswer: {\n      structure: ['公司认同', '职位匹配', '个人发展'],\n      keyPoints: ['展示对公司的了解', '连接个人职业规划'],\n      exampleResponse: '我对贵公司的XX产品印象深刻...',\n      pitfalls: ['过于泛泛而谈', '只谈薪资福利']\n    }\n  }\n];\n\nreturn {\n  json: {\n    sessionId,\n    step: 'questions-built',\n    progress: 60,\n    questionBank\n  }\n};"
+      },
+      "id": "build-questions",
+      "name": "构建问题库",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [1340, 300]
+    },
+    {
+      "parameters": {
+        "url": "http://localhost:3000/api/coaching/progress",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{ $credentials.webhookApi.token }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "sessionId",
+              "value": "={{ $json.sessionId }}"
+            },
+            {
+              "name": "progress",
+              "value": "={{ $json.progress }}"
+            },
+            {
+              "name": "step",
+              "value": "={{ $json.step }}"
+            }
+          ]
+        }
+      },
+      "id": "update-progress-2",
+      "name": "更新进度2",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [1560, 300]
+    },
+    {
+      "parameters": {
+        "functionCode": "// 设计模拟面试\nconst sessionId = $input.first().json.sessionId;\n\nconst mockInterview = {\n  rounds: [\n    {\n      type: 'self-introduction',\n      duration: 5,\n      questions: ['请简单介绍一下你自己'],\n      evaluationCriteria: ['表达清晰度', '经验相关性', '职业规划']\n    },\n    {\n      type: 'technical',\n      duration: 20,\n      questions: ['谈谈你最熟悉的技术栈', '如何解决技术难题'],\n      evaluationCriteria: ['技术深度', '解决问题能力', '学习能力']\n    },\n    {\n      type: 'behavioral',\n      duration: 15,\n      questions: ['描述一次团队合作的经历', '如何处理工作压力'],\n      evaluationCriteria: ['团队协作', '情商', '抗压能力']\n    }\n  ],\n  scoreCard: [\n    {\n      criterion: '技术能力',\n      weight: 0.4,\n      description: '评估技术深度和广度'\n    },\n    {\n      criterion: '沟通能力',\n      weight: 0.3,\n      description: '评估表达清晰度和逻辑性'\n    },\n    {\n      criterion: '解决问题的能力',\n      weight: 0.3,\n      description: '评估分析和解决问题的能力'\n    }\n  ]\n};\n\nreturn {\n  json: {\n    sessionId,\n    step: 'mock-designed',\n    progress: 80,\n    mockInterview\n  }\n};"
+      },
+      "id": "design-mock",
+      "name": "设计模拟面试",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [1780, 300]
+    },
+    {
+      "parameters": {
+        "functionCode": "// 制定行动计划\nconst sessionId = $input.first().json.sessionId;\nconst preferences = $input.first().json.preferences || { timeframe: 7 };\n\nconst actionPlan = {\n  dailyTasks: [\n    {\n      day: 1,\n      tasks: ['研究公司信息', '准备自我介绍'],\n      estimatedTime: 2,\n      resources: ['公司官网', 'LinkedIn']\n    },\n    {\n      day: 2,\n      tasks: ['熟悉简历项目', '准备项目介绍'],\n      estimatedTime: 3,\n      resources: ['项目文档', 'STAR方法指南']\n    },\n    {\n      day: 3,\n      tasks: ['练习常见问题', '准备行为面试例子'],\n      estimatedTime: 2,\n      resources: ['问题库', 'STAR模板']\n    }\n  ],\n  milestones: [\n    {\n      day: 3,\n      goal: '完成所有常见问题准备',\n      checkpoints: ['行为问题', '技术问题', '项目介绍']\n    },\n    {\n      day: 7,\n      goal: '完成模拟面试',\n      checkpoints: ['自我介绍流畅', '技术问题熟练', '行为问题自然']\n    }\n  ],\n  resources: [\n    {\n      type: 'article',\n      title: '面试技巧指南',\n      url: 'https://example.com/interview-guide',\n      description: '详细的面试技巧文章'\n    },\n    {\n      type: 'video',\n      title: '面试礼仪视频',\n      url: 'https://example.com/interview-etiquette',\n      description: '面试礼仪和注意事项'\n    }\n  ]\n};\n\nreturn {\n  json: {\n    sessionId,\n    step: 'plan-created',\n    progress: 100,\n    actionPlan\n  }\n};"
+      },
+      "id": "create-plan",
+      "name": "制定行动计划",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [2000, 300]
+    },
+    {
+      "parameters": {
+        "functionCode": "// 汇总所有生成的内容\nconst sessionId = $input.first().json.sessionId;\nconst guide = $('generate-guide').first().json.guide;\nconst questionBank = $('build-questions').first().json.questionBank;\nconst mockInterview = $('design-mock').first().json.mockInterview;\nconst actionPlan = $('create-plan').first().json.actionPlan;\n\nconst coachingResult = {\n  sessionId,\n  generatedAt: new Date().toISOString(),\n  coaching: {\n    materials: {\n      guide,\n      questionBank,\n      mockInterview,\n      actionPlan\n    },\n    metadata: {\n      wordCount: 5000,\n      estimatedReadTime: 25,\n      lastUpdated: new Date().toISOString(),\n      version: '1.0.0'\n    }\n  }\n};\n\nreturn {\n  json: {\n    success: true,\n    sessionId,\n    status: 'completed',\n    data: coachingResult,\n    timestamp: new Date().toISOString()\n  }\n};"
+      },
+      "id": "final-response",
+      "name": "最终响应",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [2220, 300]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $json }}"
+      },
+      "id": "webhook-response",
+      "name": "Webhook响应",
+      "type": "n8n-nodes-base.webhookResponse",
+      "typeVersion": 1,
+      "position": [2440, 300]
+    },
+    {
+      "parameters": {
+        "url": "http://localhost:3000/api/coaching/complete",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{ $credentials.webhookApi.token }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "sessionId",
+              "value": "={{ $json.sessionId }}"
+            },
+            {
+              "name": "result",
+              "value": "={{ $json.data }}"
+            }
+          ]
+        }
+      },
+      "id": "save-result",
+      "name": "保存结果",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [2220, 420]
+    },
+    {
+      "parameters": {
+        "functionCode": "// 错误处理\nconst error = $input.first().json;\n\nreturn {\n  json: {\n    success: false,\n    sessionId: error.sessionId || '',\n    status: 'failed',\n    error: {\n      code: 'WORKFLOW_ERROR',\n      message: error.message || 'Unknown error occurred'\n    },\n    timestamp: new Date().toISOString()\n  }\n};"
+      },
+      "id": "error-handler",
+      "name": "错误处理",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [900, 500]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $json }}",
+        "options": {
+          "responseCode": 500
+        }
+      },
+      "id": "error-response",
+      "name": "错误响应",
+      "type": "n8n-nodes-base.webhookResponse",
+      "typeVersion": 1,
+      "position": [1120, 500]
+    }
+  ],
+  "connections": {
+    "webhook-trigger": {
+      "main": [[{ "node": "validate-request", "type": "main", "index": 0 }]]
+    },
+    "validate-request": {
+      "main": [[{ "node": "start-generation", "type": "main", "index": 0 }]]
+    },
+    "start-generation": {
+      "main": [[{ "node": "generate-guide", "type": "main", "index": 0 }]]
+    },
+    "generate-guide": {
+      "main": [[{ "node": "update-progress-1", "type": "main", "index": 0 }]]
+    },
+    "update-progress-1": {
+      "main": [[{ "node": "build-questions", "type": "main", "index": 0 }]]
+    },
+    "build-questions": {
+      "main": [[{ "node": "update-progress-2", "type": "main", "index": 0 }]]
+    },
+    "update-progress-2": {
+      "main": [[{ "node": "design-mock", "type": "main", "index": 0 }]]
+    },
+    "design-mock": {
+      "main": [[{ "node": "create-plan", "type": "main", "index": 0 }]]
+    },
+    "create-plan": {
+      "main": [[{ "node": "final-response", "type": "main", "index": 0 }]]
+    },
+    "final-response": {
+      "main": [
+        [{ "node": "webhook-response", "type": "main", "index": 0 }],
+        [{ "node": "save-result", "type": "main", "index": 0 }]
+      ]
+    },
+    "error-handler": {
+      "main": [[{ "node": "error-response", "type": "main", "index": 0 }]]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "errorWorkflow": {
+      "active": true
+    }
+  },
+  "versionId": "1",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "id": "coaching-generate-workflow",
+  "tags": [
+    {
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z",
+      "id": "interview",
+      "name": "面试辅导"
+    }
+  ]
+}

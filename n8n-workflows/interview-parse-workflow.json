@@ -1,0 +1,338 @@
+{
+  "name": "面试信息解析工作流",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "webhook/interview/parse",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-trigger",
+      "name": "Webhook触发器",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [240, 300],
+      "webhookId": "interview-parse"
+    },
+    {
+      "parameters": {
+        "functionCode": "// 验证请求数据\nconst requestData = $input.first().json;\n\n// 验证必需字段\nif (!requestData.sessionId || !requestData.data) {\n  throw new Error('Invalid request data');\n}\n\n// 生成唯一请求ID\nconst requestId = `req_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;\n\n// 返回处理后的数据\nreturn {\n  json: {\n    ...requestData,\n    requestId,\n    receivedAt: new Date().toISOString(),\n    workflow: 'interview-parse'\n  }\n};"
+      },
+      "id": "validate-request",
+      "name": "验证请求",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "interview/start",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "start-processing",
+      "name": "开始处理",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [680, 300],
+      "parameters": {
+        "url": "http://localhost:3000/api/interview/start",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{ $credentials.webhookApi.token }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "sessionId",
+              "value": "={{ $json.sessionId }}"
+            },
+            {
+              "name": "requestId",
+              "value": "={{ $json.requestId }}"
+            },
+            {
+              "name": "data",
+              "value": "={{ $json.data }}"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "parameters": {
+        "functionCode": "// 检查是否有简历文件\nconst data = $input.first().json.data;\n\nif (data.resumeFile && data.resumeFile.url) {\n  // 有简历文件，需要解析\n  return {\n    json: {\n      sessionId: data.sessionId,\n      resumeUrl: data.resumeFile.url,\n      format: data.resumeFile.format,\n      hasResume: true\n    }\n  };\n} else {\n  // 没有简历文件，跳过解析\n  return {\n    json: {\n      sessionId: data.sessionId,\n      hasResume: false\n    }\n  };\n}"
+      },
+      "id": "check-resume",
+      "name": "检查简历",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [900, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "has-resume",
+              "leftValue": "={{ $json.hasResume }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equal"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "if-has-resume",
+      "name": "是否有简历",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [1120, 300]
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.resumeUrl }}",
+        "options": {}
+      },
+      "id": "download-resume",
+      "name": "下载简历",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [1340, 200],
+      "parameters": {
+        "responseFormat": "file"
+      }
+    },
+    {
+      "parameters": {
+        "url": "http://localhost:3000/api/resume/parse",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{ $credentials.webhookApi.token }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "sessionId",
+              "value": "={{ $json.sessionId }}"
+            },
+            {
+              "name": "fileUrl",
+              "value": "={{ $json.resumeUrl }}"
+            },
+            {
+              "name": "format",
+              "value": "={{ $json.format }}"
+            }
+          ]
+        }
+      },
+      "id": "parse-resume",
+      "name": "解析简历",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [1560, 200]
+    },
+    {
+      "parameters": {
+        "functionCode": "// 合并解析结果和原始数据\nconst originalData = $input.first().json;\nconst resumeData = $('parse-resume').first().json;\n\nreturn {\n  json: {\n    sessionId: originalData.sessionId,\n    originalData: originalData.data,\n    parsedResume: resumeData,\n    step: 'analyze-match'\n  }\n};"
+      },
+      "id": "merge-data",
+      "name": "合并数据",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [1780, 200]
+    },
+    {
+      "parameters": {
+        "url": "http://localhost:3000/api/interview/analyze",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{ $credentials.webhookApi.token }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "sessionId",
+              "value": "={{ $json.sessionId }}"
+            },
+            {
+              "name": "data",
+              "value": "={{ $json }}"
+            }
+          ]
+        }
+      },
+      "id": "analyze-match",
+      "name": "分析匹配度",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [1340, 400]
+    },
+    {
+      "parameters": {
+        "url": "http://localhost:3000/api/webhook/interview/coach",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{ $credentials.webhookApi.token }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "sessionId",
+              "value": "={{ $json.sessionId }}"
+            },
+            {
+              "name": "parsedData",
+              "value": "={{ $json.analysisResult }}"
+            },
+            {
+              "name": "coachingType",
+              "value": "interview-prep"
+            },
+            {
+              "name": "preferences",
+              "value": {
+                "language": "zh-CN",
+                "depth": "comprehensive",
+                "format": "slides",
+                "timeframe": 7
+              }
+            }
+          ]
+        }
+      },
+      "id": "trigger-coaching",
+      "name": "触发辅导生成",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [1560, 400]
+    },
+    {
+      "parameters": {
+        "functionCode": "// 返回最终响应\nconst sessionId = $json.sessionId || $input.first().json.sessionId;\n\nreturn {\n  json: {\n    success: true,\n    sessionId: sessionId,\n    status: 'completed',\n    message: 'Interview parsing completed successfully',\n    timestamp: new Date().toISOString()\n  }\n};"
+      },
+      "id": "final-response",
+      "name": "最终响应",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [1780, 400]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $json }}"
+      },
+      "id": "webhook-response",
+      "name": "Webhook响应",
+      "type": "n8n-nodes-base.webhookResponse",
+      "typeVersion": 1,
+      "position": [2000, 400]
+    },
+    {
+      "parameters": {
+        "functionCode": "// 错误处理\nconst error = $input.first().json;\n\nreturn {\n  json: {\n    success: false,\n    sessionId: error.sessionId || '',\n    status: 'failed',\n    error: {\n      code: 'WORKFLOW_ERROR',\n      message: error.message || 'Unknown error occurred'\n    },\n    timestamp: new Date().toISOString()\n  }\n};"
+      },
+      "id": "error-handler",
+      "name": "错误处理",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [1340, 600]
+    }
+  ],
+  "connections": {
+    "webhook-trigger": {
+      "main": [[{ "node": "validate-request", "type": "main", "index": 0 }]]
+    },
+    "validate-request": {
+      "main": [[{ "node": "check-resume", "type": "main", "index": 0 }]]
+    },
+    "check-resume": {
+      "main": [[{ "node": "if-has-resume", "type": "main", "index": 0 }]]
+    },
+    "if-has-resume": {
+      "main": [
+        [{ "node": "download-resume", "type": "main", "index": 0 }],
+        [{ "node": "analyze-match", "type": "main", "index": 0 }]
+      ]
+    },
+    "download-resume": {
+      "main": [[{ "node": "parse-resume", "type": "main", "index": 0 }]]
+    },
+    "parse-resume": {
+      "main": [[{ "node": "merge-data", "type": "main", "index": 0 }]]
+    },
+    "merge-data": {
+      "main": [[{ "node": "analyze-match", "type": "main", "index": 0 }]]
+    },
+    "analyze-match": {
+      "main": [[{ "node": "trigger-coaching", "type": "main", "index": 0 }]]
+    },
+    "trigger-coaching": {
+      "main": [[{ "node": "final-response", "type": "main", "index": 0 }]]
+    },
+    "final-response": {
+      "main": [[{ "node": "webhook-response", "type": "main", "index": 0 }]]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "1",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "id": "interview-parse-workflow",
+  "tags": [
+    {
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z",
+      "id": "interview",
+      "name": "面试辅导"
+    }
+  ]
+}

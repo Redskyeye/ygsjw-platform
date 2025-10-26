@@ -57,4 +57,23 @@ export const apiRequest = {
     api.patch(url, data),
 };
 
+// 面试Webhook API
+export const interviewWebhookApi = {
+  // 提交面试信息解析请求
+  parseInterview: (data: any) =>
+    api.post('/webhook/interview/parse', data),
+
+  // 提交辅导生成请求
+  generateCoaching: (data: any) =>
+    api.post('/webhook/interview/coach', data),
+
+  // 查询处理状态
+  getStatus: (sessionId: string) =>
+    api.get(`/webhook/interview/status?sessionId=${sessionId}`),
+
+  // 取消处理
+  cancelTask: (sessionId: string) =>
+    api.delete(`/webhook/interview/coach?sessionId=${sessionId}`)
+};
+
 export default api;

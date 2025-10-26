@@ -104,3 +104,6 @@ export interface ValidationRule {
   value?: string | number;
   message: string;
 }
+
+// 导出面试Webhook相关类型
+export * from './interview-webhook';
